@@ -100,9 +100,9 @@ Now comes a clever idea to optimize inference speed: **speculative decoding**.
 To make use of parallelization, we will use this trick:
 
 1. We will pass the input through a smaller, faster **"draft" model**.
-2. We will generate $k$ output tokens from this draft model. Let's denote them by $d$:
+2. We will generate $n$ output tokens from this draft model. Let's denote them by $d$:
    $$
-   d_1, d_2, d_3, d_4, \dots, d_k
+   d_1, d_2, d_3, d_4, \dots, d_n
    $$
 
 We will use this output as a draft output for the big, main model.
@@ -125,14 +125,15 @@ Here, we will compare the two output vectors: the draft vector $d$ and the main 
 
 Draft vector: 
 $$
-[d_1, d_2, d_3, \dots, d_n]
+[d_0, d_1, d_2, d_3, \dots, d_n]
 $$
 Main model verification:
 $$
-[O_1, O_2, O_3, \dots, O_n]
+[O_0, O_1, O_2, O_3, \dots, O_n]
 $$
 
 
+- Is $d_0 == O_0$? True. (Accept $d_0$)
 - Is $d_1 == O_1$? True. (Accept $d_1$)
 - Is $d_2 == O_2$? True. (Accept $d_2$)
 - $\vdots$
